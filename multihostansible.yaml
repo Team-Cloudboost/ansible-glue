@@ -1,0 +1,37 @@
+---
+- hosts: 20.14.95.39
+  tasks:
+  - name: clone laravel codebase
+    git:
+        repo: https://github.com/Team-Cloudboost/glue-in-more-than-5-containers
+        dest: /home/azureuser/glue-app
+
+    become: yes
+
+  - name: replace in env files
+    shell: sed -i 's,localhost, 10.1.0.5,g' //home/azureuser/glue-app/.env
+  - name: server name change
+    shell: sed -i 's,server_host,20.14.95.39,g' /home/azureuser/glue-app/.env
+  - name: Run glueapp docker-compose in detached mode
+    command: sudo docker-compose up -d
+    args:
+         chdir: /home/azureuser/glue-app
+
+- hosts: 20.163.24.146
+  tasks:
+  - name: clone laravel codebase
+    git:
+        repo: https://github.com/Team-Cloudboost/glue-in-more-than-5-containers
+        dest: /home/azureuser/glue-app
+
+    become: yes
+
+  - name: replace in env files
+    shell: sed -i 's,localhost, 10.1.0.6,g' //home/azureuser/glue-app/.env
+  - name: server name change
+    shell: sed -i 's,server_host,20.163.24.146,g' /home/azureuser/glue-app/.env
+  - name: Run glueapp docker-compose in detached mode
+    command: sudo docker-compose up -d
+    args:
+         chdir: /home/azureuser/glue-app
+
